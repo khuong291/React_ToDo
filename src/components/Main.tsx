@@ -4,6 +4,7 @@ import { State } from './App';
 import Todo from '../models/Todo';
 import TodoCard from './TodoCard';
 import FilterBar from './FilterBar';
+import AddTodoForm from './AddTodoForm';
 
 interface Props {
   todoList: Todo[];
@@ -26,6 +27,7 @@ class Main extends React.Component<Props> {
   render() {
     return (
       <div>
+        <AddTodoForm />
         <FilterBar />
         {this.getTodoList().map((todo, index) => (
           <TodoCard key={index} todo={todo} />
