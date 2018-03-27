@@ -19,7 +19,17 @@ const defaultState: State = {
   isAdding: false,
 };
 
-const reducer = (state: State = defaultState, action: {}) => {
+const reducer = (state: State = defaultState, action: { type: string }) => {
+  switch (action.type) {
+    case 'FILTER_SHOW_ALL':
+      return { ...state, filterStatus: 'SHOW_ALL' };
+    case 'FILTER_SHOW_COMPLETED':
+      return { ...state, filterStatus: 'SHOW_COMPLETED' };
+    case 'FILTER_SHOW_INCOMPLETED':
+      return { ...state, filterStatus: 'SHOW_INCOMPLETED' };
+    default:
+      break;
+  }
   return state;
 };
 

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-// import * as Colors from '../constants/Colors';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { State } from './App';
 
 const Container = styled.div`
   display: flex;
@@ -19,19 +21,57 @@ const Button = styled.button`
   outline: none;
 `;
 
-const SelectedButton = Button.extend`
-  color: white;
-  background-color: green;
-`;
+interface Props {
+  filterStatus: string;
+  dispatch: Dispatch<string>;
+}
 
-export default class FilterBar extends React.Component {
+class FilterBar extends React.Component<Props> {
+  checkButtonIsSelected(statusName: string) {
+    if (statusName === this.props.filterStatus) {
+      return { color: 'white', backgroundColor: 'green' };
+    }
+    return { color: 'black', backgroundColor: 'white' };
+  }
+
+  setFilterStatus(actionType: string) {
+    this.props.dispatch({ type: actionType });
+  }
+
   render() {
     return (
       <Container>
-        <SelectedButton>ALL</SelectedButton>
-        <Button>COMPLETED</Button>
-        <Button>INCOMPLETED</Button>
+        <Button
+          style={this.checkButtonIsSelected('SHOW_ALL')}
+          onClick={() => this.setFilterStatus('FILTER_SHOW_ALL')}
+        >
+          ALL
+        </Button>
+        <Button
+          style={this.checkButtonIsSelected('SHOW_COMPLETED')}
+          onClick={() => this.setFilterStatus('FILTER_SHOW_COMPLETED')}
+        >
+          COMPLETED
+        </Button>
+        <Button
+          style={this.checkButtonIsSelected('SHOW_INCOMPLETED')}
+          onClick={() => this.setFilterStatus('FILTER_SHOW_INCOMPLETED')}
+        >
+          INCOMPLETED
+        </Button>
       </Container>
     );
   }
 }
+
+function mapStateToProps(state: State) {
+  return { filterStatus: state.filterStatus };
+}
+
+function mapDispatchToProps(dispatch: Dispatch<string>) {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterBar);
