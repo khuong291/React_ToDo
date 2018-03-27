@@ -19,7 +19,10 @@ const defaultState: State = {
   isAdding: false,
 };
 
-const reducer = (state: State = defaultState, action: { type: string }) => {
+const reducer = (
+  state: State = defaultState,
+  action: { type: string; id: number }
+) => {
   switch (action.type) {
     case 'FILTER_SHOW_ALL':
       return { ...state, filterStatus: 'SHOW_ALL' };
@@ -27,6 +30,16 @@ const reducer = (state: State = defaultState, action: { type: string }) => {
       return { ...state, filterStatus: 'SHOW_COMPLETED' };
     case 'FILTER_SHOW_INCOMPLETED':
       return { ...state, filterStatus: 'SHOW_INCOMPLETED' };
+    case 'TOGGLE_COMPLETE':
+      return {
+        ...state,
+        todoList: state.todoList.map(todo => {
+          if (todo.id !== action.id) {
+            return todo;
+          }
+          return { ...todo, completed: !todo.completed };
+        }),
+      };
     default:
       break;
   }

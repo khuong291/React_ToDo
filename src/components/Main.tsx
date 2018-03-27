@@ -11,11 +11,23 @@ interface Props {
 }
 
 class Main extends React.Component<Props> {
+  getTodoList() {
+    const { filterStatus, todoList } = this.props;
+    switch (filterStatus) {
+      case 'SHOW_COMPLETED':
+        return todoList.filter(todo => todo.completed);
+      case 'SHOW_INCOMPLETED':
+        return todoList.filter(todo => !todo.completed);
+      default:
+        return todoList;
+    }
+  }
+
   render() {
     return (
       <div>
         <FilterBar />
-        {this.props.todoList.map((todo, index) => (
+        {this.getTodoList().map((todo, index) => (
           <TodoCard key={index} todo={todo} />
         ))}
       </div>
