@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { State } from './App';
 import Todo from '../models/Todo';
 import TodoCard from './TodoCard';
+import FilterBar from './FilterBar';
 
 interface Props {
   todoList: Todo[];
@@ -13,8 +14,9 @@ class Main extends React.Component<Props> {
   render() {
     return (
       <div>
-        {this.props.todoList.map((todo, key) => (
-          <TodoCard todoText={todo.text} />
+        <FilterBar />
+        {this.props.todoList.map((todo, index) => (
+          <TodoCard key={index} todo={todo} />
         ))}
       </div>
     );
